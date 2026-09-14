@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation · Dwayne Casay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: #fafafa;
+            color: #222222;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f5b5e;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .logo span {
+            font-weight: 400;
+            color: #555555;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #444444;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #0f5b5e;
+        }
+
+        nav a.active {
+            color: #0f5b5e;
+            font-weight: 600;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        /* ===== FEATURED BIG PAIR ===== */
+        .featured {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 1.25rem 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .featured-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .featured-header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111111;
+            letter-spacing: -0.3px;
+        }
+
+        .featured-badge {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #ffffff;
+            background: #0f5b5e;
+            padding: 0.25rem 0.7rem;
+            border-radius: 4px;
+        }
+
+        .featured-desc {
+            font-size: 0.9rem;
+            color: #777777;
+            margin-bottom: 1rem;
+            max-width: 700px;
+        }
+
+        .featured-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .featured-box {
+            position: relative;
+            background: #000;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .featured-box video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: #000;
+        }
+
+        /* ===== VIDEO LABELS ===== */
+        .video-label {
+            position: absolute;
+            top: 0.6rem;
+            left: 0.6rem;
+            background: rgba(0, 0, 0, 0.65);
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.2rem 0.55rem;
+            border-radius: 3px;
+            z-index: 2;
+        }
+
+        .video-label.raw {
+            background: rgba(120, 120, 120, 0.85);
+        }
+
+        .video-label.done {
+            background: rgba(15, 91, 94, 0.9);
+        }
+
+        /* ===== SECTION DIVIDER ===== */
+        .section-divider {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .section-divider h2 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #111111;
+        }
+
+        .section-divider p {
+            font-size: 0.85rem;
+            color: #777777;
+            margin-top: 0.15rem;
+        }
+
+        /* ===== COMPARISON LIST (small pairs) ===== */
+        .comparison {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            padding: 1rem 1.1rem 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .comparison-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111111;
+        }
+
+        .comparison-header .label {
+            font-size: 0.72rem;
+            color: #888888;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .video-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .video-box {
+            position: relative;
+            background: #000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .video-box video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: #000;
+        }
+
+        /* ===== PHOTOSHOP TOOLS SECTION ===== */
+        .tools-section {
+            margin-top: 2rem;
+            padding-top: 0.5rem;
+        }
+
+        /* 3 × 3 grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.85rem;
+        }
+
+        .tool-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Short image — 16:6 aspect ratio instead of 16:9 */
+        .tool-image {
+            width: 100%;
+            aspect-ratio: 16 / 6;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .tool-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .tool-image .fallback {
+            font-size: 1.6rem;
+            color: #999999;
+            font-weight: 600;
+        }
+
+        .tool-info {
+            padding: 0.7rem 0.8rem 0.85rem;
+        }
+
+        .tool-info h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 0.2rem;
+        }
+
+        .tool-info p {
+            font-size: 0.75rem;
+            color: #666666;
+            line-height: 1.5;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 1.25rem 2rem;
+            margin-top: 1rem;
+            border-top: 1px solid #e5e5e5;
+            background: #ffffff;
+            font-size: 0.8rem;
+            color: #888888;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 0.75rem 1.25rem;
+            }
+
+            nav {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.82rem;
+            }
+
+            .container {
+                padding: 1.25rem 1.25rem 1.5rem;
+            }
+
+            .featured {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .featured-header h1 {
+                font-size: 1.15rem;
+            }
+
+            .featured-pair {
+                gap: 0.5rem;
+            }
+
+            .video-pair {
+                gap: 0.5rem;
+            }
+
+            .video-label {
+                font-size: 0.55rem;
+                padding: 0.15rem 0.4rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <a href="Index.html" class="logo">MultiMedia and Authoring </a>
+        <nav>
+            <a href="SolarSystem.html">SolarSystem</a>
+            <a href="Rotoscope.html" class="active">Rotoscope</a>
+        </nav>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <div class="container">
+
+        <!-- FEATURED BIG PAIR -->
+        <div class="featured">
+            <div class="featured-header">
+                <h1>1-Minute Rotoscope Animation</h1>
+                <span class="featured-badge">Final Product</span>
+            </div>
+            <p class="featured-desc">The full 1-minute animation project. Raw footage on the left, final rotoscoped and color-graded version on the right.</p>
+
+            <div class="featured-pair">
+                <div class="featured-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/1minRaw.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="featured-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/1minDone.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROCESS BREAKDOWN -->
+        <div class="section-divider">
+            <h2>Process Breakdown</h2>
+            <p>Each numbered take — raw footage next to the finished edit.</p>
+        </div>
+
+        <!-- 1st -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>1st Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/1stRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/1stDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2nd -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>2nd Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/2ndRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/2ndDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3rd -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>3rd Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/3rdRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/3rdDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>4th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/4thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/4thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>5th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/5thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/5thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>6th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/6thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/6thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>7th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/7thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/7thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>8th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/8thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/8thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>9th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/9thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/9thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>10th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/10thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/10thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>11th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/11thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/11thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12th -->
+        <div class="comparison">
+            <div class="comparison-header">
+                <h3>12th Animation</h3>
+                <span class="label">Raw vs Done</span>
+            </div>
+            <div class="video-pair">
+                <div class="video-box">
+                    <span class="video-label raw">Raw</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/12thRaw.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="video-box">
+                    <span class="video-label done">Done</span>
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="rotoscope/12thDone.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== PHOTOSHOP TOOLS SECTION ===== -->
+        <div class="tools-section">
+            <div class="section-divider">
+                <h2>Tools Used</h2>
+                <p>The tools and panels used for rotoscoping, cleanup, and color work.</p>
+            </div>
+
+            <div class="tools-grid">
+                <!-- Brush Tool -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/brushtool.png" alt="Brush Tool"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>🖌️</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Brush Tool</h3>
+                        <p>The main painting tool. Used for hand-painting color, drawing lines, and touching up details frame by frame.</p>
+                    </div>
+                </div>
+
+                <!-- Paint Bucket Tool -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/paintbucket.png" alt="Paint Bucket Tool"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>🪣</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Paint Bucket Tool</h3>
+                        <p>Fills large areas with a single color. Used for quickly blocking in flat colors inside a selection.</p>
+                    </div>
+                </div>
+
+                <!-- Eyedropper Tool -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/eyedropper.png" alt="Eyedropper Tool"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>💧</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Eyedropper Tool</h3>
+                        <p>Samples colors from anywhere on the canvas. Used for matching skin tones, shadows, and background colors accurately.</p>
+                    </div>
+                </div>
+
+                <!-- Rectangular Marquee Tool -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/marquee.png" alt="Rectangular Marquee Tool"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>⬚</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Rectangular Marquee Tool</h3>
+                        <p>Makes a selection in the shape of a rectangle. Used for cropping, copying, and isolating specific areas of a frame.</p>
+                    </div>
+                </div>
+
+                <!-- History Brush Tool -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/historybrush.png" alt="History Brush Tool"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>↺</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>History Brush Tool</h3>
+                        <p>Restores previous parts of a frame without redoing everything. Useful for fixing small mistakes or recovering erased details.</p>
+                    </div>
+                </div>
+
+                <!-- Zoom Tool -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/zoom.png" alt="Zoom Tool"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>🔍</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Zoom Tool</h3>
+                        <p>Zooms in and out of the canvas. Essential for pixel-level detail work during rotoscoping.</p>
+                    </div>
+                </div>
+
+                <!-- Layers Panel -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/layers.png" alt="Layers Panel"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>📚</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Layers Panel</h3>
+                        <p>Organizes a project into stacked layers. Used to separate the background, character, and effects for easier editing.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Panel -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/timeline.png" alt="Timeline Panel"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>🎞️</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Timeline Panel</h3>
+                        <p>Controls frame-by-frame animation. Used for scrubbing through frames, setting durations, and previewing the animation.</p>
+                    </div>
+                </div>
+
+                <!-- Swatches Panel -->
+                <div class="tool-card">
+                    <div class="tool-image">
+                        <img src="rotoscope/swatches.png" alt="Swatches Panel"
+                             onerror="this.parentElement.innerHTML='<span class=\'fallback\'>🎨</span>';">
+                    </div>
+                    <div class="tool-info">
+                        <h3>Swatches Panel</h3>
+                        <p>Stores saved color palettes. Used to keep consistent colors throughout the entire animation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

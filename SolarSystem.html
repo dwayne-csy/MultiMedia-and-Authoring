@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System · Dwayne Casay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            background: #fafafa;
+            color: #222222;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f5b5e;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .logo span {
+            font-weight: 400;
+            color: #555555;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #444444;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #0f5b5e;
+        }
+
+        nav a.active {
+            color: #0f5b5e;
+            font-weight: 600;
+        }
+
+        /* ===== HERO SOLAR SYSTEM VIDEO ===== */
+        .hero-video {
+            max-width: 1100px;
+            margin: 1.5rem auto 0;
+            padding: 0 2rem;
+        }
+
+        .hero-video-wrapper {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero-video-wrapper video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            background: #000;
+        }
+
+        /* ===== INTRO + AGE INPUT ===== */
+        .intro {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0.5rem;
+            text-align: center;
+        }
+
+        .intro h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 0.3rem;
+        }
+
+        .intro p {
+            font-size: 0.9rem;
+            color: #777777;
+            margin-bottom: 1rem;
+        }
+
+        .age-input-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            padding: 0.5rem 0.9rem;
+        }
+
+        .age-input-wrap label {
+            font-size: 0.85rem;
+            color: #555555;
+            font-weight: 500;
+        }
+
+        .age-input-wrap input {
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            font-family: inherit;
+            width: 70px;
+            text-align: right;
+            color: #111111;
+            font-weight: 600;
+        }
+
+        .age-hint {
+            font-size: 0.8rem;
+            color: #999999;
+        }
+
+        /* ===== PLANET GRID ===== */
+        .planet-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem 2.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.15rem;
+        }
+
+        .planet-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            overflow: hidden;
+            padding: 0;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .planet-card:hover {
+            transform: translateY(-3px);
+            border-color: #0f5b5e;
+            box-shadow: 0 10px 20px -8px rgba(15, 91, 94, 0.2);
+        }
+
+        .planet-card video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .planet-card-info {
+            padding: 0.75rem 0.9rem 0.9rem;
+        }
+
+        .planet-card-info h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 0.15rem;
+        }
+
+        .planet-card-info p {
+            font-size: 0.78rem;
+            color: #888888;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #ffffff;
+            border-radius: 10px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.96) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.75rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: #ffffff;
+            font-size: 1.4rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            line-height: 1;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .modal-video {
+            width: 100%;
+            background: #000;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+        }
+
+        .modal-video video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .modal-body {
+            padding: 1.25rem 1.5rem 1.75rem;
+        }
+
+        .modal-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-desc {
+            font-size: 0.92rem;
+            color: #555555;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-facts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .fact {
+            background: #f7f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            padding: 0.6rem 0.75rem;
+        }
+
+        .fact .fact-label {
+            font-size: 0.75rem;
+            color: #888888;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .fact .fact-value {
+            font-size: 0.9rem;
+            color: #111111;
+            font-weight: 600;
+        }
+
+        .modal-age {
+            background: #eef6f6;
+            border: 1px solid #d3e6e6;
+            border-radius: 6px;
+            padding: 1rem 1.1rem;
+        }
+
+        .modal-age h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0f5b5e;
+            margin-bottom: 0.35rem;
+        }
+
+        .modal-age-result {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 0.2rem;
+        }
+
+        .modal-age-note {
+            font-size: 0.8rem;
+            color: #666666;
+        }
+
+        /* ===== 8K IMAGE GALLERY ===== */
+        .gallery-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 3rem;
+            border-top: 1px solid #ececec;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #111111;
+            margin-bottom: 0.3rem;
+        }
+
+        .gallery-header p {
+            font-size: 0.9rem;
+            color: #777777;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-3px);
+            border-color: #0f5b5e;
+            box-shadow: 0 10px 20px -8px rgba(15, 91, 94, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            background: #111;
+        }
+
+        .gallery-label {
+            padding: 0.6rem 0.8rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #111111;
+            text-align: center;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 1.25rem 2rem;
+            margin-top: 1rem;
+            border-top: 1px solid #e5e5e5;
+            background: #ffffff;
+            font-size: 0.8rem;
+            color: #888888;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .planet-grid,
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 0.75rem 1.25rem;
+            }
+
+            nav {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.82rem;
+            }
+
+            .hero-video {
+                padding: 0 1.25rem;
+                margin-top: 1rem;
+            }
+
+            .intro,
+            .planet-grid,
+            .gallery-section {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+
+            .planet-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-facts {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-body h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <a href="Index.html" class="logo">MultiMedia and Authoring </a>
+        <nav>
+            <a href="Rotoscope.html">Rotoscope</a>
+            <a href="SolarSystem.html" class="active">Solar System</a>
+        </nav>
+    </header>
+
+    <!-- ===== HERO SOLAR SYSTEM VIDEO ===== -->
+    <section class="hero-video">
+        <div class="hero-video-wrapper">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/solarsystem.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <!-- ===== INTRO + AGE INPUT ===== -->
+    <section class="intro">
+        <h1>Explore the Planets</h1>
+        <p>Click any planet below to see its details and find out how old you would be there.</p>
+
+        <div class="age-input-wrap">
+            <label for="earthAge">Your age on Earth:</label>
+            <input type="number" id="earthAge" min="0" step="1" placeholder="e.g. 20" value="20">
+            <span class="age-hint">years</span>
+        </div>
+    </section>
+
+    <!-- ===== PLANET GRID ===== -->
+    <section class="planet-grid">
+
+        <button class="planet-card" data-planet="mercury">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/mercury.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Mercury</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="venus">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/venus.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Venus</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="earth">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/earth.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Earth</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="mars">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/mars.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Mars</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="jupiter">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/jupiter.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Jupiter</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="saturn">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/saturn.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Saturn</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="uranus">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/uranus.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Uranus</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="neptune">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/neptune.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Neptune</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+        <button class="planet-card" data-planet="pluto">
+            <video autoplay loop muted playsinline preload="metadata">
+                <source src="planets/pluto.mp4" type="video/mp4">
+            </video>
+            <div class="planet-card-info">
+                <h3>Pluto</h3>
+                <p>Tap to view details</p>
+            </div>
+        </button>
+
+    </section>
+
+    <!-- ===== 8K IMAGE GALLERY ===== -->
+    <section class="gallery-section">
+        <div class="gallery-header">
+            <h2>8K Images Used in Solar System</h2>
+            <p>High-resolution textures and reference images used to build the animation.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="planets/mercury.jpg" alt="Mercury 8K">
+                <div class="gallery-label">Mercury</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/venus.jpg" alt="Venus 8K">
+                <div class="gallery-label">Venus</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/earth.jpg" alt="Earth 8K">
+                <div class="gallery-label">Earth</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/mars.jpg" alt="Mars 8K">
+                <div class="gallery-label">Mars</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/jupiter.jpg" alt="Jupiter 8K">
+                <div class="gallery-label">Jupiter</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/saturn.jpg" alt="Saturn 8K">
+                <div class="gallery-label">Saturn</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/uranus.jpg" alt="Uranus 8K">
+                <div class="gallery-label">Uranus</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/neptune.jpg" alt="Neptune 8K">
+                <div class="gallery-label">Neptune</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/pluto.jpg" alt="Pluto 8K">
+                <div class="gallery-label">Pluto</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/saturnring.jpg" alt="Saturn Ring 8K">
+                <div class="gallery-label">Saturn Ring</div>
+            </div>
+            <div class="gallery-item">
+                <img src="planets/sun.jpg" alt="Sun 8K">
+                <div class="gallery-label">Sun</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" role="dialog" aria-modal="true">
+            <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+
+            <div class="modal-video">
+                <video id="modalVideo" autoplay loop muted playsinline>
+                    <source id="modalVideoSource" src="" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="modal-body">
+                <h2 id="modalTitle">Planet</h2>
+                <p class="modal-desc" id="modalDesc">Description</p>
+
+                <div class="modal-facts" id="modalFacts"></div>
+
+                <div class="modal-age">
+                    <h3>Your age on <span id="modalPlanetName">this planet</span></h3>
+                    <p class="modal-age-result">
+                        <span id="modalAgeValue">—</span> years
+                    </p>
+                    <p class="modal-age-note" id="modalAgeNote"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+
+    <script src="script.js"></script>
+</body>
+</html>
